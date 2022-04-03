@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
 export default class Home extends Component {
@@ -9,10 +9,9 @@ export default class Home extends Component {
                 <h4 style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                     Welcome to Peter Park coding challange
                 </h4>
-                <Link to="/addPlate">Add New Plate</Link>
+                <Button color="primary" tag={Link} to="/addPlate">Add New Plate</Button>
                 {"      "}
-                <Link to="/listPlates">List Existing Plates</Link>
-
+                <Button color="primary" tag={Link} to="/listPlates">List Existing Plates</Button>
             </div>
         );
     }
