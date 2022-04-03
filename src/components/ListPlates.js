@@ -53,18 +53,18 @@ export default class ListPlates extends Component {
     async componentDidMount() {
         const response = await fetch('/plateList');
         const body = await response.json();
-        this.setState({plates: body.data, isLoading: false, plate: {'id': 0, 'plate': 'M-PP123', 'owner': 'Max0', 'start_date': '2020-09-18T13:21:21Z' , 'end_date' : '2020-09-18T13:21:21Z'}});
+        console.log(body)
+        this.setState({plates: body, isLoading: false});
     }
 
     render() {
         const title = <h3 style={{marginTop: '10px'}}>Plate List</h3>
-        const {plates, isLoading} = this.state;
+        const {isLoading} = this.state;
         if(isLoading)
             return (<div>Loading...</div>);
-
         return (
             <div>
-                <div hidden={typeof(this.state.plates[0]) != 'undefined'}>
+                <div hidden={typeof(this.state.plates) != 'undefined'}>
                     List is empty
                 </div>
                 <div hidden={typeof(this.state.plates) === 'undefined'}>
@@ -74,6 +74,7 @@ export default class ListPlates extends Component {
                             title={title}
                             icons={tableIcons}
                             columns={[
+                                {field: 'id', title: 'id', width: 95, align: 'center', type:'string'},
                                 {field: 'owner', title: 'Owner', width: 95, align: 'center', type:'string'},
                                 {field: 'plate', title: 'Plate', width: 95, align: 'center',type:'string'},
                                 {field: 'start_date', title: 'Start date', width: 145, align: 'center',type:'date'},
