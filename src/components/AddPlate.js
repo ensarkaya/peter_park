@@ -39,22 +39,20 @@ export default class AddPlate extends Component {
             },
             body: JSON.stringify(item)
         });
-        try {
-            const body = await response.json();
-            console.log(body);
-           /*
-           if(body.id > 0) {
-                this.setState({isSuccess: true, isError: false});
-                setTimeout(() => this.setState({isSuccess:false, isPopup:true}),3000);
-                setTimeout(() => this.props.history.push('/user'),15000);
-            }
-            if(body.httpStatus === "BAD_REQUEST") {
-                this.setState({isError: true, isSuccess: false, msg: body.message});
-                setTimeout(() => this.setState({isError:false}),3000);
-            }
-
-            */
-        } catch(e) {}
+          
+        if(response['status'] === 400 ) {
+            this.setState({isError: true, isSuccess: false, msg: "Plate cannot be empty!"});
+            setTimeout(() => this.setState({isError:false}),3000);
+        }
+        else if(response['status'] === 422 ) {
+            this.setState({isError: true, isSuccess: false, msg: "Please enter a valid German plate"});
+            setTimeout(() => this.setState({isError:false}),3000);
+        }
+        else if(response['status'] === 200) {
+            this.setState({isSuccess: true, isError: false});
+            setTimeout(() => this.setState({isSuccess:false}),3000);
+            setTimeout(() => this.props.history.push('/'),3000);
+        }
     }
 
     handleChange(event) {
@@ -80,7 +78,7 @@ export default class AddPlate extends Component {
         return (
             <div>
                 <div style={{"display": this.state.isSuccess || this.state.isError ? "block" : "none"}}>
-                    <SuccessToast children={{show: this.state.isSuccess, message:"İşlem başarıyla gerçekleşti.15 saniye içinde ana sayfaya yönlendirileceksiniz."}}/>
+                    <SuccessToast children={{show: this.state.isSuccess, message:"Plate successfully added into list!"}}/>
 
                     <ErrorToast children={{show: this.state.isError, message:this.state.msg}}/>
                 </div>
@@ -118,7 +116,7 @@ export default class AddPlate extends Component {
                                 >
                                     Submit
                                 </Button>{' '}
-                                <Button color="secondary" to="/user">Abort</Button>
+                                <Button color="secondary" tag={Link} to="/">Go Back</Button>
                             </FormGroup>
                         </Form>
                     </Container>

@@ -1,7 +1,7 @@
 import React, { Component, forwardRef } from 'react';
-import { Table, Container, Button  } from 'reactstrap';
+import { Container, Button  } from 'reactstrap';
 import MaterialTable from 'material-table'
-
+import { Link } from 'react-router-dom';
 import AddBox from '@material-ui/icons/AddBox';
 import ArrowDownward from '@material-ui/icons/ArrowDownward';
 import Check from '@material-ui/icons/Check';
@@ -53,7 +53,6 @@ export default class ListPlates extends Component {
     async componentDidMount() {
         const response = await fetch('/plateList');
         const body = await response.json();
-        console.log(body)
         this.setState({plates: body, isLoading: false});
     }
 
@@ -69,18 +68,17 @@ export default class ListPlates extends Component {
                 </div>
                 <div hidden={typeof(this.state.plates) === 'undefined'}>
                     <Container>
-                        
                         <MaterialTable
                             title={title}
                             icons={tableIcons}
                             columns={[
-                                {field: 'id', title: 'id', width: 95, align: 'center', type:'string'},
                                 {field: 'owner', title: 'Owner', width: 95, align: 'center', type:'string'},
                                 {field: 'plate', title: 'Plate', width: 95, align: 'center',type:'string'},
                                 {field: 'start_date', title: 'Start date', width: 145, align: 'center',type:'date'},
                                 {field: 'end_date', title: 'End date', width: 145, align: 'center',type:'date'}
                             ]}
                             data={this.state.plates}/>
+                            <Button color="secondary" tag={Link} to="/">Go Back</Button>
                     </Container>
                     
                 </div>

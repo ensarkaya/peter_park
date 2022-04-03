@@ -48,14 +48,15 @@ def addPlate():
     #print(plate)
     #request malformed, 400
     if(len(plate) < 1):
-        return "malformed",400
+        return Response('malformed.', 400)
     #valide plate, 200
     if plate_format.match(plate) is not None:
         plate = Plates(request.json['owner'],request.json['plate'],request.json['start_date'],request.json['end_date'])
         db.session.add(plate)
         db.session.commit()
-        return "Valid plate",200
+        return Response('Valid plate.', 200)
     #invalid plate, 422
     else:
         return "Invalid plate",422
+
     
